@@ -1,0 +1,2 @@
+task,task_type,supervision_level,fold,noise_level,accuracy,f1
+face,categorical,0.0,0,original,0.6438356164383562,0.6246836564684974

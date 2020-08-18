@@ -18,9 +18,9 @@ parser.add_argument('eval_file', type=str, help='location of file with truths')
 parser.add_argument('--log-results', dest='log_dir', type=str,
                     help='write results to user-specified directory', metavar='RESULTS_DIR', default='results')
 parser.add_argument('--semi-supervised', dest='supervision_amt', type=float,
-                    help='run task as semi-supervised', metavar='PCT_TRAINING_SET', default=0.0)
-parser.add_argument('--fold', dest='fold', type=int, help='which fold?', default=0)
-parser.add_argument('--noise', dest='noise', type=str, help='noise level', default='original')
+                    help='amount of supervision. Does not affect how program runs and is just for logging', metavar='PCT_TRAINING_SET', default=0.0)
+parser.add_argument('--fold', dest='fold', type=int, help='which fold? Does not affect how program runs and is just for logging', default=0)
+parser.add_argument('--noise', dest='noise', type=str, help='noise level. Does not affect how program runs and is just for logging', default='original')
 
 
 args = parser.parse_args()

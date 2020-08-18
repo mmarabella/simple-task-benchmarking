@@ -1,57 +1,64 @@
 #!/bin/bash
 TASK=$1
+TASK_TYPE=$2
 
+LEVEL=0.0
+FOLD=1
+PREFIX=$TASK\_$LEVEL\_fold$FOLD
 java -jar MACE_external_lib/MACE.jar \
-    --prefix $TASK\_0.0\_fold1 \
+    --prefix $PREFIX \
     ../data/MACE/answer\_$TASK.csv 
 mv *.prediction ./results
 mv *.competence ./results
-python3 evaluate_semisupervised.py $TASK categorical 0.0 1
+python3 evaluate.py $TASK $TASK_TYPE results/$PREFIX.prediction ../data/MACE/truth_$TASK.csv
 
 
 for LEVEL in 0.1 0.9
 do
   for FOLD in {1..10}
   do
+    PREFIX=$TASK\_$LEVEL\_fold$FOLD
     echo $LEVEL
     java -jar MACE_external_lib/MACE.jar \
-        --prefix $TASK\_$LEVEL\_fold$FOLD \
-        --controls ../data/kfolds/MACE/gold\_$TASK\_$LEVEL\_fold$FOLD.csv \
+        --prefix $PREFIX \
+        --controls ../data/kfolds/MACE/gold\_$PREFIX.csv \
         ../data/MACE/answer_$TASK.csv 
         mv *.prediction ./results
         mv *.competence ./results
-    python3 evaluate_semisupervised.py $TASK categorical $LEVEL $FOLD
+    python3 evaluate.py $TASK $TASK_TYPE results/$PREFIX.prediction ../data/kfolds/MACE/eval\_$PREFIX.csv --semi $LEVEL --fold $FOLD
   done
 done
 
 
-for LEVEL in 0.2 0.8
-do
-  for FOLD in {1..5}
-  do
-    echo $LEVEL
-    java -jar MACE_external_lib/MACE.jar \
-        --prefix $TASK\_$LEVEL\_fold$FOLD \
-        --controls ../data/kfolds/MACE/gold\_$TASK\_$LEVEL\_fold$FOLD.csv \
-        ../data/MACE/answer_$TASK.csv 
-        mv *.prediction ./results
-        mv *.competence ./results
-    python3 evaluate_semisupervised.py $TASK categorical $LEVEL $FOLD
-  done
-done
+# for LEVEL in 0.2 0.8
+# do
+#   for FOLD in {1..5}
+#   do
+  # PREFIX=$TASK\_$LEVEL\_fold$FOLD
+#     echo $LEVEL
+#     java -jar MACE_external_lib/MACE.jar \
+#         --prefix $PREFIX \
+#         --controls ../data/kfolds/MACE/gold\_$PREFIX.csv \
+#         ../data/MACE/answer_$TASK.csv 
+#         mv *.prediction ./results
+#         mv *.competence ./results
+#     python3 evaluate.py $TASK $TASK_TYPE results/$PREFIX.prediction ../data/kfolds/MACE/eval\_$PREFIX.csv --semi $LEVEL --fold $FOLD
+#   done
+# done
 
 
-for LEVEL in 0.5
-do
-  for FOLD in {1..2}
-  do
-    echo $LEVEL
-    java -jar MACE_external_lib/MACE.jar \
-        --prefix $TASK\_$LEVEL\_fold$FOLD \
-        --controls ../data/kfolds/MACE/gold\_$TASK\_$LEVEL\_fold$FOLD.csv \
-        ../data/MACE/answer_$TASK.csv 
-        mv *.prediction ./results
-        mv *.competence ./results
-    python3 evaluate_semisupervised.py $TASK categorical $LEVEL $FOLD
-  done
-done
+# for LEVEL in 0.5
+# do
+#   for FOLD in {1..2}
+#   do
+  # PREFIX=$TASK\_$LEVEL\_fold$FOLD
+#     echo $LEVEL
+#     java -jar MACE_external_lib/MACE.jar \
+#         --prefix $PREFIX \
+#         --controls ../data/kfolds/MACE/gold\_$PREFIX.csv \
+#         ../data/MACE/answer_$TASK.csv 
+#         mv *.prediction ./results
+#         mv *.competence ./results
+#     python3 evaluate.py $TASK $TASK_TYPE results/$PREFIX.prediction ../data/kfolds/MACE/eval\_$PREFIX.csv --semi $LEVEL --fold $FOLD
+#   done
+# done

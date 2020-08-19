@@ -9,8 +9,8 @@ import random
 
 task_name = sys.argv[1]
 
-annotation_df = pd.read_csv('data/answer_' + task_name + '.csv')
-gold_df_raw = pd.read_csv('data/truth_' + task_name + '.csv').set_index('question').sort_values(['question'])
+annotation_df = pd.read_csv('../data/clean/answer_' + task_name + '.csv')
+gold_df_raw = pd.read_csv('../data/clean/truth_' + task_name + '.csv').set_index('question').sort_values(['question'])
 full_df = annotation_df.join(gold_df_raw, how='inner', on='question')
 full_df['correct'] = full_df['answer'] == full_df['truth']
 

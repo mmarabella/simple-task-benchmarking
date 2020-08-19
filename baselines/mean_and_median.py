@@ -9,8 +9,8 @@ import numpy as np
 
 task_name = sys.argv[1]
 
-annotation_df = pd.read_csv('../data/same-index-separate/answer_' + task_name + '.csv')
-gold_df_raw = pd.read_csv('../data/same-index-separate/truth_' + task_name + '.csv').set_index('question').sort_values(['question'])
+annotation_df = pd.read_csv('../data/clean/answer_' + task_name + '.csv')
+gold_df_raw = pd.read_csv('../data/clean/truth_' + task_name + '.csv').set_index('question').sort_values(['question'])
 full_df = annotation_df.join(gold_df_raw, how='inner', on='question')
 
 mean_df = full_df[['question', 'answer']].groupby('question').agg('mean').sort_values(['question'])

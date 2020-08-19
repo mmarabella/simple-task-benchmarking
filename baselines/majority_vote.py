@@ -40,8 +40,8 @@ if task_type == 'categorical':
 	else:
 		print('weighted')
 		# mv_f1 = metrics.f1_score(mv_df['truth'], mv_df['answer'], average='weighted')
-		mapping = {'neither': 1, 'sexism': 2, 'racism': 3, 'both': 4, 'link': 5, \
-			1: 'neither', 2: 'sexism', 3: 'racism', 4: 'both', 5: 'link'}
+		# mapping = {'neither': 1, 'sexism': 2, 'racism': 3, 'both': 4, 'link': 5, \
+		# 	1: 'neither', 2: 'sexism', 3: 'racism', 4: 'both', 5: 'link'}
 		mv_df['truth'] = mv_df['truth'].map(lambda x: mapping[x])
 		mv_df['answer'] = mv_df['answer'].map(lambda x: mapping[x])
 		mv_f1 = metrics.f1_score(mv_df['truth'], mv_df['answer'], average=None)
@@ -55,7 +55,7 @@ if task_type == 'categorical':
 	print(report['1'])
 	print(report['accuracy'])
 
-	with open ('../hate-speech/results2.csv', 'a') as file:
+	# with open ('../hate-speech/results2.csv', 'a') as file:
 		writer = csv.writer(file)
 		header = [
 			'method', 
@@ -82,7 +82,7 @@ if task_type == 'categorical':
 		writer.writerow(header)
 		writer.writerow(row)
 
-	with open ('../hate-speech/conf_matrices.csv', 'a') as file:
+	# with open ('../hate-speech/conf_matrices.csv', 'a') as file:
 		writer = csv.writer(file)
 		writer.writerow(['MV'])
 		writer.writerow(['', 'neither', 'sexism', 'racism', 'both', 'link'])

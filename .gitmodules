@@ -4,3 +4,6 @@
 [submodule "CATD/CrowdTI"]
 	path = CATD/CrowdTI
 	url = git@github.com:TsinghuaDatabaseGroup/CrowdTI.git
+[submodule "DawidSkene/Get-Another-Label"]
+	path = DawidSkene/Get-Another-Label
+	url = git@github.com:ipeirotis/Get-Another-Label.git

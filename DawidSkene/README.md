@@ -1,8 +1,12 @@
 ## DawidSkene README
 
-1. Download zip 
-2. Unpack
-3. Change permissions: `chmod 700 bin/get-another-label.sh`
+This directory includes scripts for running and processing the [Get-Another-Label](https://github.com/ipeirotis/Get-Another-Label/implementation) of DawidSkene. Their repo is extensively documented and has a lot of capabilities.
+
+To run the scripts in this directory:
+
+1. [Download zip](https://github.com/ipeirotis/Get-Another-Label/downloads) 
+2. Unpack the zip in this directory (`simple-task-benchmarking/DawidSkene`) of your clone
+3. Change permissions of main script: `chmod 700 bin/get-another-label.sh`
 4. Run get another label (using "face" dataset as an example)
     ```
     get-another-label/bin/get-another-label.sh  

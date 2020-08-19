@@ -1,3 +1,6 @@
 [submodule "MACE/MACE"]
 	path = MACE/MACE_external_lib
 	url = git@github.com:dirkhovy/MACE.git
+[submodule "CATD/CrowdTI"]
+	path = CATD/CrowdTI
+	url = git@github.com:TsinghuaDatabaseGroup/CrowdTI.git

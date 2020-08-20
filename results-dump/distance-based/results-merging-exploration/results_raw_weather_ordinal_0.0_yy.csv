@@ -1,0 +1,13 @@
+,task,method,mae,mse,dist_fn,eval_fn,supervision_amt,fold,noise
+0,weather_ordinal,MAS,0.10391566265060241,0.11897590361445783,diff/range d,diff/range e,0.0,1,0.0
+1,weather_ordinal,BAU,0.12198795180722892,0.1460843373493976,diff/range d,diff/range e,0.0,1,0.0
+2,weather_ordinal,SAD,0.08283132530120482,0.09487951807228916,diff/range d,diff/range e,0.0,1,0.0
+3,weather_ordinal,ORACLE,0.018072289156626505,0.018072289156626505,diff/range d,diff/range e,0.0,1,0.0
+4,weather_ordinal,DEM,0.08885542168674698,0.09487951807228916,diff/range d,diff/range e,0.0,1,0.0
+5,weather_ordinal,RANDOM,0.17921686746987953,0.22439759036144577,diff/range d,diff/range e,0.0,1,0.0
+6,weather_ordinal,MAS_MERGE,0.12345987914004837,0.08296961810791773,diff/range d,diff/range e,0.0,1,0.0
+7,weather_ordinal,BAU_MERGE,0.1474195647017047,0.08646119708788298,diff/range d,diff/range e,0.0,1,0.0
+8,weather_ordinal,SAD_MERGE,0.129225736646562,0.07961189539254733,diff/range d,diff/range e,0.0,1,0.0
+9,weather_ordinal,DEM_MERGE,0.11785055600568842,0.07948154311772698,diff/range d,diff/range e,0.0,1,0.0
+10,weather_ordinal,ORACLE_MERGE,0.09211742368191694,0.03930568833465138,diff/range d,diff/range e,0.0,1,0.0
+11,weather_ordinal,UNIFORM_MERGE,0.16414706444826926,0.09110603174223728,diff/range d,diff/range e,0.0,1,0.0

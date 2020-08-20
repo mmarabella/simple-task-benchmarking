@@ -1,0 +1,7 @@
+,task,method,accuracy,f1_weighted,f1_macro,dist_fn,eval_fn,supervision_amt,fold,noise
+0,face,MAS,0.32548179871520344,0.32545454216976394,0.3254832911485272,exact match dist,exact match eval,0.2,1,0.35
+1,face,BAU,0.3897216274089936,0.38963156618907596,0.3891414933145179,exact match dist,exact match eval,0.2,1,0.35
+2,face,SAD,0.4518201284796574,0.451770884018238,0.45201692304923474,exact match dist,exact match eval,0.2,1,0.35
+3,face,ORACLE,0.9807280513918629,0.9806977398216836,0.9806227923597255,exact match dist,exact match eval,0.2,1,0.35
+4,face,DEM,0.4582441113490364,0.4581289382022238,0.458215300510262,exact match dist,exact match eval,0.2,1,0.35
+5,face,RANDOM,0.3147751605995717,0.3143894625001848,0.31437773160566673,exact match dist,exact match eval,0.2,1,0.35

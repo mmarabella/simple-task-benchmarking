@@ -1,0 +1,13 @@
+,task,method,mae,mse,dist_fn,eval_fn,supervision_amt,fold,noise
+0,similarity,MAS,0.9191666666666664,1.3141458333333327,diff/range d,diff/range e,0.0,1,0.0
+1,similarity,BAU,1.5375,3.7274791666666673,diff/range d,diff/range e,0.0,1,0.0
+2,similarity,SAD,1.1524999999999999,2.1658124999999995,diff/range d,diff/range e,0.0,1,0.0
+3,similarity,ORACLE,0.5208333333333333,0.5108124999999998,diff/range d,diff/range e,0.0,1,0.0
+4,similarity,DEM,1.2091666666666667,2.427479166666666,diff/range d,diff/range e,0.0,1,0.0
+5,similarity,RANDOM,1.9625,5.190812500000001,diff/range d,diff/range e,0.0,1,0.0
+6,similarity,MAS_MERGE,0.9338086914251508,1.2838016368425509,diff/range d,diff/range e,0.0,1,0.0
+7,similarity,BAU_MERGE,0.8840983326539977,1.2266970576163547,diff/range d,diff/range e,0.0,1,0.0
+8,similarity,SAD_MERGE,1.0915449020072308,1.7362610526816176,diff/range d,diff/range e,0.0,1,0.0
+9,similarity,DEM_MERGE,1.0491000160102089,1.6926751083348075,diff/range d,diff/range e,0.0,1,0.0
+10,similarity,ORACLE_MERGE,0.8284204933601644,1.0395947911116354,diff/range d,diff/range e,0.0,1,0.0
+11,similarity,UNIFORM_MERGE,0.8858333333333334,1.1959791666666666,diff/range d,diff/range e,0.0,1,0.0

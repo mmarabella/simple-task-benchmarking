@@ -1,3 +1,4 @@
 *.prediction
 *.competence
 DawidSkene/get-another-label/*
+.ipynb_checkpoints

@@ -3,8 +3,8 @@
 TASK=$1
 TASK_TYPE=$2
 
-# for NOISE in 0.35 0.45 0.55 0.65 0.75 0.85 0.95
-for NOISE in 0.35
+for NOISE in 0.35 0.45 0.55 0.65 0.75 0.85 0.95
+# for NOISE in 0.35
 do
   for SUPERVISION in 0.2 0.8
   # for SUPERVISION in 0.2

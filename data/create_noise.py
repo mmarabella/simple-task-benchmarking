@@ -81,7 +81,6 @@ def main():
 	output_dir = args.output_dir
 	new_sigma = args.sigma
 
-
 	# tasks = ['temporal', 'waterbird', 'movie', 'face', 'dog', 'adult_ordinal', 'weather_ordinal']
 	tasks = ['face']
 	noise = [0.55, 0.65, 0.75, 0.85]
@@ -96,7 +95,6 @@ def main():
 			else:
 				_, sigma = get_worker_quality_distr(df_full)
 
-
 			mu2 = 0
 			sigma2 = 0
 			attempts = 0
@@ -105,12 +103,12 @@ def main():
 				df_new = create_noisey_df(df_full, noise_level, sigma)
 				mu2, sigma2 = get_worker_quality_distr(df_new.join(df_truth, on='question', how='inner'))
 				if attempts > 5:
-					print(mu2, sigma2)
+					print("TARGET", noise_level, sigma)
+					print("ACTUAL", mu2, sigma2)
 				attempts += 1
 
 			print("MEAN:", noise_level, "->", mu2)
 			print("VAR: ", sigma, "->", sigma2)
-
 
 			generate_dist_csv(df_new, task, noise_level, output_dir, new_sigma)
 			generate_ds_csv(df_new, task, noise_level, output_dir, new_sigma)

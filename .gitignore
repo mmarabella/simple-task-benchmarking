@@ -2,3 +2,5 @@
 *.competence
 DawidSkene/get-another-label/*
 .ipynb_checkpoints
+__pycache__
+DawidSkene/results/*.txt

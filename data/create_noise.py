@@ -74,45 +74,52 @@ def create_noisey_df(df_full, mu, sigma):
 def main():
 	parser = argparse.ArgumentParser(description='Generate noisey datasets')
 
+	parser.add_argument('task', type=str, help='dataset name')
 	parser.add_argument('output_dir', type=str, help='folder for output files')
 	parser.add_argument('--sigma', dest='sigma', type=float, help='set worker acc variance')
 
 	args = parser.parse_args()
+	task = args.task
 	output_dir = args.output_dir
 	new_sigma = args.sigma
 
-	# tasks = ['temporal', 'waterbird', 'movie', 'face', 'dog', 'adult_ordinal', 'weather_ordinal']
-	tasks = ['face']
-	noise = [0.55, 0.65, 0.75, 0.85]
+	noise = [0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75]
 
-	for task in tasks:
-		print(task)
-		df_full, df_answer, df_truth = read_df(task)
-		labels_per_item = len(df_full) / df_full['question'].nunique() 
-		for noise_level in noise:
-			if new_sigma:
-				sigma = new_sigma
-			else:
-				_, sigma = get_worker_quality_distr(df_full)
+	print(task)
+	df_full, df_answer, df_truth = read_df(task)
+	labels_per_item = len(df_full) / df_full['question'].nunique() 
+	for noise_level in noise:
+		if new_sigma:
+			sigma = new_sigma
+		else:
+			_, sigma = get_worker_quality_distr(df_full)
 
-			mu2 = 0
-			sigma2 = 0
-			attempts = 0
-			while abs(mu2 - noise_level) > .02 or abs(sigma2 - sigma) > .02:
-				print("attempt:", attempts)
-				df_new = create_noisey_df(df_full, noise_level, sigma)
-				mu2, sigma2 = get_worker_quality_distr(df_new.join(df_truth, on='question', how='inner'))
-				if attempts > 5:
-					print("TARGET", noise_level, sigma)
-					print("ACTUAL", mu2, sigma2)
-				attempts += 1
+		mu2 = 0
+		sigma2 = 0
+		attempts = 0
+		adjustment = 0
+		while abs(mu2 - noise_level) > .02 or abs(sigma2 - sigma) > .02:
+			print("attempt:", attempts)
+			df_new = create_noisey_df(df_full, noise_level, sigma + adjustment)
+			mu2, sigma2 = get_worker_quality_distr(df_new.join(df_truth, on='question', how='inner'))
 
-			print("MEAN:", noise_level, "->", mu2)
-			print("VAR: ", sigma, "->", sigma2)
+			if attempts > 5:
+				if sigma2 > sigma:
+					if sigma + adjustment > 0.06:
+						adjustment -= 0.05
+				else:
+					adjustment += .05
+				print("TARGET", noise_level, sigma)
+				print("ACTUAL", mu2, sigma2)
+				print("ADJUSTMENT", adjustment)
+			attempts += 1
 
-			generate_dist_csv(df_new, task, noise_level, output_dir, new_sigma)
-			generate_ds_csv(df_new, task, noise_level, output_dir, new_sigma)
-			generate_mace_csv(df_new, df_truth, task, noise_level, output_dir, new_sigma)
+		print("MEAN:", noise_level, "->", mu2)
+		print("VAR: ", sigma, "->", sigma2)
+
+		generate_dist_csv(df_new, task, noise_level, output_dir, new_sigma)
+		generate_ds_csv(df_new, task, noise_level, output_dir, new_sigma)
+		generate_mace_csv(df_new, df_truth, task, noise_level, output_dir, new_sigma)
 
 
 if __name__ == "__main__":

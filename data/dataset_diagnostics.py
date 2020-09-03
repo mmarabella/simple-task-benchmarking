@@ -30,6 +30,13 @@ def get_worker_quality_distr(df_full):
 	mu, sigma = norm.fit(accs)
 	return mu, sigma
 
+def get_totals(df_full):
+	totals = {}
+	totals['workers'] = df_full['worker'].nunique()
+	totals['questions'] = df_full['question'].nunique()
+	totals['labels'] = len(df_full)
+	return totals
+
 def get_truth_variance(df_truth):
 	counts = df_truth['truth'].value_counts().values
 	pcts = counts/np.sum(counts)*100
@@ -58,6 +65,7 @@ def main():
 		l_per_w = get_labels_per_worker(df_full)
 		truth_var = get_truth_variance(df_truth)
 		error_var = get_error_variance(df_full)
+		totals = get_totals(df_full)
 
 
 		task_dict['worker_acc_mean'] = worker_acc_mean
@@ -66,17 +74,11 @@ def main():
 		task_dict['l_per_w'] = l_per_w
 		task_dict['truth_var'] = truth_var
 		task_dict['error_var'] = error_var
+		task_dict['total_workers'] = totals['workers']
+		task_dict['total_questions'] = totals['questions']
+		task_dict['total_labels'] = totals['labels']
 
 		results_dict[task] = task_dict
-
-		print(task.upper())
-		print(round(worker_acc_mean, 2))
-		print(round(worker_acc_var, 2))
-		print(l_per_q)
-		print(l_per_w)
-		print(round(truth_var, 2))
-		print(round(error_var, 2))
-		print('\n')
 
 	results_df = pd.DataFrame.from_dict(results_dict, orient='index')
 	# results_df.to_csv('dataset_diagnostics.csv')

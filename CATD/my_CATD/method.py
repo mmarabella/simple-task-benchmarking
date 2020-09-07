@@ -19,9 +19,11 @@ class Conf_Aware:
         if self.datatype == 'continuous':
              for example, worker_label_set in self.e2wl.items():
                 temp = 0
+                totalweights = 0
                 for worker, label in worker_label_set:
                     temp = temp + self.weight[worker] * float(label)
-
+                    totalweights += self.weight[worker]
+                temp = temp / totalweights
                 self.truth[example] = temp
 
         else:
@@ -62,8 +64,8 @@ class Conf_Aware:
                 else:
                     if self.truth[example]!=label:
                         dif = dif + 1
-            if dif==0:
-                print worker, ns, dif, chi_s / (dif + 0.00001)
+            # if dif==0:
+                # print worker, ns, dif, chi_s / (dif + 0.00001)
 
             self.weight[worker] = chi_s / (dif + 0.000000001)
             weight_sum = weight_sum + self.weight[worker]
@@ -197,7 +199,14 @@ if __name__ == "__main__":
     #     datatype = r'categorical'
 
     datafile = sys.argv[1]
-    datatype = sys.argv[2]
+    task_type = sys.argv[2]
+
+    ''' these two if statements map the terms we use for other experiments
+    to the CATD terms. Also prevents algorithm from assuming datatype '''
+    if task_type in ['numerical', 'continuous', 'ordinal']:
+        datatype = 'continuous'
+    if task_type == 'categorical':
+        datatype = 'categorical'
     e2wl, w2el, label_set = gete2wlandw2el(datafile) 
     e2lpd, w2q = Conf_Aware(e2wl,w2el,datatype).Run(0.05,100)
 
@@ -216,8 +225,7 @@ if __name__ == "__main__":
     truth = pd.read_csv(truthfile).set_index('question')
     df.index = df.index.astype(type(truth.index.values[0]))
     full_df = df.join(truth, how='inner').sort_index()
-    print(full_df)
-    if datatype == 'categorical':
+    if task_type == 'categorical':
         full_df['prediction'] = full_df['prediction'].astype(str)
         full_df['truth'] = full_df['truth'].astype(str)
         full_df['score'] = (full_df['prediction'] == full_df['truth']).astype(float)
@@ -232,32 +240,38 @@ if __name__ == "__main__":
             f1 = metrics.f1_score(full_df['truth'], full_df['prediction'])
         print (acc, f1, np.mean(full_df['score']))
 
-        with open ('results/results_' + datatype + '.csv', 'a') as file:
-            writer = csv.writer(file)
-            writer.writerow([task_name, acc, f1])
+        # with open (f'{results_dir}/results_' + task_name + '.csv', 'a') as file:
+        #     writer = csv.writer(file)
+        #     writer.writerow([task_name, acc, f1])
 
-        with open('results/catd_scores_' + task_name + '.csv', 'w') as file:
-            writer = csv.writer(file)
-            for idx, item in full_df['score'].iteritems():
-                writer.writerow([item])
+        # with open(f'{results_dir}/catd_scores_' + task_name + '.csv', 'w') as file:
+        #     writer = csv.writer(file)
+        #     for idx, item in full_df['score'].iteritems():
+        #         writer.writerow([item])
 
-    if datatype == 'continuous' or datatype == 'ordinal':
+    if datatype == 'continuous' or datatype == 'categorical':
         full_df['prediction'] = full_df['prediction'].astype(float)
+        if task_type == 'ordinal':
+            full_df['prediction'] = full_df['prediction'].map(lambda x: round(x))
         full_df['truth'] = full_df['truth'].astype(float)
         full_df['score'] = abs(full_df['prediction'] - full_df['truth'])
         accuracy1 = getaccuracy(truthfile, e2lpd, datatype)
         mae = metrics.mean_absolute_error(full_df['truth'], full_df['prediction'])
         mse = metrics.mean_squared_error(full_df['truth'], full_df['prediction'])
-        print(full_df)
-        print(accuracy1, np.mean(full_df['score']), mae, mse, math.sqrt(mse))
+        print(np.mean(full_df['score']), mae, mse, math.sqrt(mse), accuracy1)
 
-        with open ('results/results_' + datatype + '.csv', 'a') as file:
-            writer = csv.writer(file)
-            writer.writerow([task_name, mae, mse])
 
-        with open('results/catd_scores_' + task_name + '.csv', 'w') as file:
+        filename = f"{log_dir}/results_{task_name}.csv"
+        with open (filename, 'a') as file:
             writer = csv.writer(file)
-            for idx, item in full_df['score'].iteritems():
-                writer.writerow([item])
+            if (os.stat(filename).st_size == 0):
+                header = ['method', 'mae']
+                writer.writerow(header)
+            writer.writerow(['CATD', mae])
+
+        # with open(f'{results_dir}/catd_scores_' + task_name + '.csv', 'w') as file:
+        #     writer = csv.writer(file)
+        #     for idx, item in full_df['score'].iteritems():
+        #         writer.writerow([item])
 
 
